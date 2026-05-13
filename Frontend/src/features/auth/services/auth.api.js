@@ -1,10 +1,16 @@
 import axios from "axios"
 
-
 const api = axios.create({
-    baseURL: "http://localhost:3000",
+    baseURL: import.meta.env.VITE_BASE_URL,
     withCredentials: true
 })
+
+export default api
+
+function handleError(err) {
+    console.log(err)
+    throw err?.response?.data?.message || err.message || "Something went wrong"
+}
 
 export async function register({ username, email, password }) {
 
@@ -16,9 +22,7 @@ export async function register({ username, email, password }) {
         return response.data
 
     } catch (err) {
-
-        console.log(err)
-
+        handleError(err)
     }
 
 }
@@ -34,7 +38,7 @@ export async function login({ email, password }) {
         return response.data
 
     } catch (err) {
-        console.log(err)
+       handleError(err)
     }
 
 }
@@ -47,7 +51,7 @@ export async function logout() {
         return response.data
 
     } catch (err) {
-
+        handleError(err)
     }
 }
 
@@ -60,7 +64,7 @@ export async function getMe() {
         return response.data
 
     } catch (err) {
-        console.log(err)
+       handleError(err)
     }
 
 }
